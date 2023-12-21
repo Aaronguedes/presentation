@@ -1,0 +1,48 @@
+resources:
+  jobs:
+    wkf_centreon_apiRest_dev_ingestion_resources:
+      name: wkf_centreon_apiRest_dev_ingestion_resources
+      tasks:
+        - task_key: ing_resources-hosts
+          notebook_task:
+            notebook_path: /Repos/azrepos/src_dp_centreon/notebooks/viaipe_api/ingestion/ing_resources
+            base_parameters:
+              isSensitive: "false"
+              isIncremental: "false"
+              isDev: "true"
+              schemaName: api_rest
+              systemSource: centreon
+              tableSource: resources/hosts
+              trigger: daily
+            source: WORKSPACE
+          existing_cluster_id: 1127-225437-gd32cun5
+          libraries:
+            - pypi:
+                package: aiohttp==3.9.1
+        - task_key: ing_resources-hosts_services
+          notebook_task:
+            notebook_path: /Repos/azrepos/src_dp_centreon/notebooks/viaipe_api/ingestion/ing_resources
+            base_parameters:
+              isSensitive: "false"
+              isIncremental: "false"
+              isDev: "true"
+              schemaName: api_rest
+              systemSource: centreon
+              tableSource: resources/hosts_services
+              trigger: daily
+            source: WORKSPACE
+          existing_cluster_id: 1127-225437-gd32cun5
+          libraries:
+            - pypi:
+                package: aiohttp==3.9.1
+        - task_key: exception
+          depends_on:
+            - task_key: ing_resources-hosts
+            - task_key: ing_resources-hosts_services
+          run_if: AT_LEAST_ONE_FAILED
+          notebook_task:
+            notebook_path: /Repos/azrepos/src_dp_centreon/notebooks/viaipe_api/ingestion/exception
+            source: WORKSPACE
+          existing_cluster_id: 1127-225437-gd32cun5
+      run_as:
+        user_name: gsc-cdia@rnp.br
