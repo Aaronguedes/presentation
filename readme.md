@@ -14,7 +14,7 @@ As opções consideradas para a solução:
 
 **Contras**: Custo elevado
 
-**2)**Fazer a consulta em batch com trigger de 3 em 3 minutos, consultando todos os endpoints usando armazenando no driver do cluster com Python.
+**2)** Fazer a consulta em batch com trigger de 3 em 3 minutos, consultando todos os endpoints usando armazenando no driver do cluster com Python.
 
 **Prós**: Custo menor
 
